@@ -52,6 +52,9 @@ void sort_dicts(LinkedList* &list, Node* node_1, Node* node_2);
 
 int main()
 {
+    LinkedList test = LinkedList();
+
+    test.add_node("hi");
     cout << "Hello dlrow" << endl;
 }
 

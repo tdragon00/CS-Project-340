@@ -223,7 +223,7 @@ struct LinkedList
             return high_node;
         }
 
-        if (key > mid_node->word)
+        if (key > mid_node->get_word())
         {
             mid_node = this->binary_find_node(key, mid_node->next, high - 1, mid + 1);
         }

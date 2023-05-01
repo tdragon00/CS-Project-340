@@ -1,18 +1,12 @@
 #include <string>
 
-struct Node
+class Node
 {
     std::string word;
+public:
     Node *next = nullptr;
     Node *prev = nullptr;
 
-    Node(std::string word)
-    {
-        this->word = word;
-    }
-
-    std::string get_word()
-    {
-        return this->word;
-    }
+    Node(std::string word);
+    std::string get_word();
 };
