@@ -40,6 +40,12 @@ LinkedList::LinkedList(Node* head, Node* tail)
 
 }
 
+LinkedList::~LinkedList()
+{
+    // Should start a chain delete throughout the list
+    delete this->head;
+}
+
 void LinkedList::add_node(string content)
 {
     Node* new_node = new Node(content);

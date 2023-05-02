@@ -10,6 +10,7 @@ public:
 	int size = 0;
 
 	LinkedList();
+	~LinkedList();
 	LinkedList(Node* head);
 	LinkedList(Node* head, Node* tail);
 	void add_node(string content);
