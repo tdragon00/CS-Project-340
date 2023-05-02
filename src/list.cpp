@@ -21,6 +21,8 @@ LinkedList::LinkedList(Node* head)
     this->size = 1;
 }
 
+
+//potential scope issue
 LinkedList::LinkedList(Node* head, Node* tail)
 {
     head->prev = nullptr;
@@ -40,7 +42,22 @@ LinkedList::LinkedList(Node* head, Node* tail)
 
 }
 
-void LinkedList::add_node(string content)
+//desstructor 
+LinkedList::~LinkedList()
+{
+    // Should start a chain delete throughout the list
+
+
+    while (head->next != nullptr)
+    {
+    
+        head = head->next;
+        delete head->prev;
+    }
+    delete this->head;
+}
+
+void LinkedList::push_front(string content)
 {
     Node* new_node = new Node(content);
     if (this->head != nullptr)
@@ -352,4 +369,15 @@ bool LinkedList::swap_node(Node*& x, Node*& y)
     y = deref_x;
 
     return true;
+}
+
+int length() 
+{
+
+    return size;
+}
+
+Node* front() 
+{
+    return head;
 }

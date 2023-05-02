@@ -49,13 +49,29 @@ LinkedList* merge_sort(LinkedList* &list);
 LinkedList* merge_dicts(LinkedList* list_1, LinkedList* list_2);
 void add_to_dict(LinkedList* &list, Node* node);
 void sort_dicts(LinkedList* &list, Node* node_1, Node* node_2);
+void print(LinkedList list);
 
 int main()
 {
     LinkedList test = LinkedList();
 
-    test.add_node("hi");
+    test.push_front("hi");
+    test.push_front("ww");
+    print(test);
+
+
     cout << "Hello dlrow" << endl;
+}
+
+void print(LinkedList list) 
+{
+    Node* iter = list.front();
+    for (int i = 0; i < list.length(); i++) 
+    {
+    
+        cout << iter->get_word();
+        iter = iter->next;
+    }
 }
 
 void linear_sort(LinkedList* &list)

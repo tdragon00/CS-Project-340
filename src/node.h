@@ -8,5 +8,6 @@ public:
     Node *prev = nullptr;
 
     Node(std::string word);
+    ~Node();
     std::string get_word();
 };
