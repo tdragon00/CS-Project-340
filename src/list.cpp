@@ -59,6 +59,8 @@ LinkedList::~LinkedList()
 
 void LinkedList::push_front(string content)
 {
+
+    cout << "push_front called";
     Node* new_node = new Node(content);
     if (this->head != nullptr)
     {
@@ -182,7 +184,7 @@ Node* LinkedList::find_mid_node()
     return mid_node;
 }
 
-Node* LinkedList::binary_find_node(string key, Node*& lower_node, int high, int lower = 1)
+Node* LinkedList::binary_find_node(string key, Node*& lower_node, int high, int lower)
 {
     if (key == lower_node->get_word())
     {
