@@ -371,13 +371,13 @@ bool LinkedList::swap_node(Node*& x, Node*& y)
     return true;
 }
 
-int length() 
+int LinkedList::length()
 {
 
     return size;
 }
 
-Node* front() 
+Node* LinkedList::front()
 {
     return head;
 }
