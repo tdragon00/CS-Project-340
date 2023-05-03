@@ -66,7 +66,7 @@ int main()
 void print(LinkedList list) 
 {
     Node* iter = list.front();
-    for (int i = 0; i < list.length(); i++) 
+    for (int i = 0; i < list.length()-1; i++) 
     {
     
         cout << iter->get_word();
