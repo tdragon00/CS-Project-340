@@ -1,24 +1,22 @@
 #include "node.h"
 
-Node::Node(std::string word)
+template <typename T>
+Node<T>::Node(T data)
 {
-    this->word = word;
+    this->data = data;
 }
 
-Node::~Node()
+template <typename T>
+Node<T>::~Node()
 {
-    Node* current_node = this;
-    while(this->next != nullptr)
-    {
-        this->prev = nullptr;
-        current_node = this->next;
-        this->next = nullptr;
-
-        delete this;
-    }
+    this->next = nullptr;
+    this->prev = nullptr;
+    
+    delete this;
 }
 
-std::string Node::get_word()
+template <typename T>
+T Node<T>::get_data()
 {
-    return this->word;
+    return this->data;
 }

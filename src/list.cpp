@@ -3,16 +3,20 @@
 #include <vector>
 
 #include "node.h"
+#include "node.cpp"
+
 #include "list.h"
 
 using namespace std;
 
-LinkedList::LinkedList() {
-	this->head = nullptr;
-	this->size = 0;
+template <typename T>
+LinkedList<T>::LinkedList() {
+    this->head = nullptr;
+    this->size = 0;
 }
 
-LinkedList::LinkedList(Node* head)
+template <typename T>
+LinkedList<T>::LinkedList(Node<T>* head)
 {
     this->head = head;
     head->prev = nullptr;
@@ -23,7 +27,8 @@ LinkedList::LinkedList(Node* head)
 
 
 //potential scope issue
-LinkedList::LinkedList(Node* head, Node* tail)
+template <typename T>
+LinkedList<T>::LinkedList(Node<T>* head, Node<T>* tail)
 {
     head->prev = nullptr;
     this->head = head;
@@ -32,7 +37,7 @@ LinkedList::LinkedList(Node* head, Node* tail)
 
     if (this->head != tail && this->head->next != nullptr)
     {
-        Node* counter = this->head->next;
+        Node<T>* counter = this->head->next;
         while (counter->next != nullptr)
         {
             this->size++;
@@ -42,26 +47,26 @@ LinkedList::LinkedList(Node* head, Node* tail)
 
 }
 
-//desstructor 
-LinkedList::~LinkedList()
+//desstructor
+template <typename T>
+LinkedList<T>::~LinkedList()
 {
     // Should start a chain delete throughout the list
-
-
     while (head->next != nullptr)
     {
-    
         head = head->next;
         delete head->prev;
     }
+
     delete this->head;
 }
 
-void LinkedList::push_front(string content)
+template <typename T>
+void LinkedList<T>::push_front(T data)
 {
 
     cout << "push_front called";
-    Node* new_node = new Node(content);
+    Node<T>* new_node = new Node<T>(data);
     if (this->head != nullptr)
     {
         this->head->prev = new_node;
@@ -74,12 +79,13 @@ void LinkedList::push_front(string content)
     this->size++;
 }
 
-void LinkedList::add_node(string content, bool add_to_end)
+template <typename T>
+void LinkedList<T>::add_node(T data, bool add_to_end)
 {
     if (add_to_end)
     {
-        Node* current_node = this->head;
-        Node* new_node = new Node(content);
+        Node<T>* current_node = this->head;
+        Node<T>* new_node = new Node<T>(data);
         new_node->next = nullptr;
 
         if (current_node == nullptr)
@@ -91,7 +97,7 @@ void LinkedList::add_node(string content, bool add_to_end)
             return;
         }
 
-        Node* last_node = this->head;
+        Node<T>* last_node = this->head;
         while (last_node->next != nullptr)
         {
             last_node = last_node->next;
@@ -103,10 +109,11 @@ void LinkedList::add_node(string content, bool add_to_end)
     }
 }
 
-void LinkedList::add_node(string content, Node* specific_node)
+template <typename T>
+void LinkedList<T>::add_node(T data, Node<T>* specific_node)
 {
-    Node* next_node = specific_node->next;
-    Node* new_node = new Node(content);
+    Node<T>* next_node = specific_node->next;
+    Node<T>* new_node = new Node<T>(data);
 
     if (next_node == nullptr)
     {
@@ -122,9 +129,10 @@ void LinkedList::add_node(string content, Node* specific_node)
     this->size++;
 }
 
-void LinkedList::add_node(Node content, Node* specific_node)
+template <typename T>
+void LinkedList<T>::add_node(Node<T> data, Node<T>* specific_node)
 {
-    Node* new_node = new Node(content.get_word());
+    Node<T>* new_node = new Node<T>(data.get_data());
 
     if (specific_node == nullptr)
     {
@@ -137,7 +145,7 @@ void LinkedList::add_node(Node content, Node* specific_node)
         return;
     }
 
-    Node* previous_node = specific_node->prev;
+    Node<T>* previous_node = specific_node->prev;
     if (previous_node == nullptr)
     {
         this->head = new_node;
@@ -154,12 +162,13 @@ void LinkedList::add_node(Node content, Node* specific_node)
 }
 
 // Just a linear search to find the specific node
-Node* LinkedList::find_node(string key)
+template <typename T>
+Node<T>* LinkedList<T>::find_node(T key)
 {
-    Node* curr_node = this->head;
+    Node<T>* curr_node = this->head;
     while (curr_node != nullptr)
     {
-        if (curr_node->get_word() == key)
+        if (curr_node->get_data() == key)
         {
             break;
         }
@@ -170,10 +179,11 @@ Node* LinkedList::find_node(string key)
     return curr_node;
 }
 
-Node* LinkedList::find_mid_node()
+template <typename T>
+Node<T>* LinkedList<T>::find_mid_node()
 {
-    Node* mid_node = this->head;
-    Node* fast_ptr = this->head;
+    Node<T>* mid_node = this->head;
+    Node<T>* fast_ptr = this->head;
 
     while (fast_ptr != nullptr && fast_ptr->next != nullptr)
     {
@@ -184,9 +194,10 @@ Node* LinkedList::find_mid_node()
     return mid_node;
 }
 
-Node* LinkedList::binary_find_node(string key, Node*& lower_node, int high, int lower)
+template <typename T>
+Node<T>* LinkedList<T>::binary_find_node(T key, Node<T>* &lower_node, int high, int lower)
 {
-    if (key == lower_node->get_word())
+    if (key == lower_node->get_data())
     {
         return lower_node;
     }
@@ -194,10 +205,10 @@ Node* LinkedList::binary_find_node(string key, Node*& lower_node, int high, int 
     int mid = ((high - lower) / 2) + lower;
     int i = lower;
 
-    Node* mid_node = this->find_mid_node();
+    Node<T>* mid_node = this->find_mid_node();
 
     i = mid;
-    Node* high_node = mid_node;
+    Node<T>* high_node = mid_node;
 
     while (i < high)
     {
@@ -216,28 +227,28 @@ Node* LinkedList::binary_find_node(string key, Node*& lower_node, int high, int 
 
     if (high_node != nullptr)
     {
-        if (high_node->get_word() == lower_node->get_word())
+        if (high_node->get_data() == lower_node->get_data())
         {
             return nullptr;
         }
     }
 
-    if (mid_node->get_word() == lower_node->get_word())
+    if (mid_node->get_data() == lower_node->get_data())
     {
         return nullptr;
     }
 
-    if (key == mid_node->get_word())
+    if (key == mid_node->get_data())
     {
         return mid_node;
     }
 
-    if (key == high_node->get_word())
+    if (key == high_node->get_data())
     {
         return high_node;
     }
 
-    if (key > mid_node->get_word())
+    if (key > mid_node->get_data())
     {
         mid_node = this->binary_find_node(key, mid_node->next, high - 1, mid + 1);
     }
@@ -249,23 +260,10 @@ Node* LinkedList::binary_find_node(string key, Node*& lower_node, int high, int 
     return mid_node;
 }
 
-void LinkedList::deconstruct()
+template <typename T>
+bool LinkedList<T>::remove_node(T key)
 {
-    Node* current_node = this->head;
-
-    while (current_node != nullptr)
-    {
-        Node* next = current_node->next;
-        delete current_node;
-        current_node = next;
-    }
-
-    delete this;
-}
-
-bool LinkedList::remove_node(string key)
-{
-    Node* key_node = this->find_node(key);
+    Node<T>* key_node = this->find_node(key);
     bool result = false;
 
     if (key_node != nullptr)
@@ -289,7 +287,8 @@ bool LinkedList::remove_node(string key)
     return result;
 }
 
-bool LinkedList::remove_node(Node* node)
+template <typename T>
+bool LinkedList<T>::remove_node(Node<T>* node)
 {
     bool result = false;
     if (node != nullptr)
@@ -313,13 +312,14 @@ bool LinkedList::remove_node(Node* node)
     return result;
 }
 
-bool LinkedList::swap_node(Node*& x, Node*& y)
+template <typename T>
+bool LinkedList<T>::swap_node(Node<T>* &x, Node<T>* &y)
 {
-    Node* deref_y = y;
-    Node* deref_x = x;
+    Node<T>* deref_y = y;
+    Node<T>* deref_x = x;
 
     // If the two node's datas are the same, no need to swap.
-    if (deref_y->get_word() == deref_x->get_word())
+    if (deref_y->get_data() == deref_x->get_data())
     {
         return false;
     }
@@ -336,7 +336,7 @@ bool LinkedList::swap_node(Node*& x, Node*& y)
     }
 
     // Set each node's next to the other node's next.
-    Node* temp = deref_x->next;
+    Node<T>* temp = deref_x->next;
     deref_x->next = deref_y->next;
     deref_y->next = temp;
 
@@ -371,15 +371,4 @@ bool LinkedList::swap_node(Node*& x, Node*& y)
     y = deref_x;
 
     return true;
-}
-
-int LinkedList::length()
-{
-
-    return size;
-}
-
-Node* LinkedList::front()
-{
-    return head;
 }

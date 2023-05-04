@@ -41,39 +41,58 @@
 
 
 #include "list.h"
+#include "list.cpp"
 
 using namespace std;
 
+/*
+NOTE: We don't really need these right now,
 void linear_sort(LinkedList* &list);
 LinkedList* merge_sort(LinkedList* &list);
 LinkedList* merge_dicts(LinkedList* list_1, LinkedList* list_2);
 void add_to_dict(LinkedList* &list, Node* node);
 void sort_dicts(LinkedList* &list, Node* node_1, Node* node_2);
-void print(LinkedList list);
+
+*/
+
+template <typename T>
+void print(LinkedList<T> list);
 
 int main()
 {
-    LinkedList test = LinkedList();
+    LinkedList<string> test = LinkedList<string>();
 
     test.push_front("hi");
     test.push_front("ww");
-    print(test);
 
+    
+    Node<string>* head = test.front();
+    cout << head->get_data() << endl;
+
+    Node<string>* test_node = test.binary_find_node("hi", head, test.length());
+
+    if (test_node != nullptr)
+    {
+        cout << test_node->get_data() << endl;
+    }
 
     cout << "Hello dlrow" << endl;
+
+    print(test);
 }
 
-void print(LinkedList list) 
+template <typename T>
+void print(LinkedList<T> list) 
 {
-    Node* iter = list.front();
-    for (int i = 0; i < list.length()-1; i++) 
+    Node<T>* iter = list.front();
+    for (int i = 0; i < list.length(); i++) 
     {
-    
-        cout << iter->get_word();
+        cout << iter->get_data() << endl;
         iter = iter->next;
     }
 }
 
+/*
 void linear_sort(LinkedList* &list)
 {
     Node* iter_node = list->head;
@@ -279,3 +298,4 @@ void add_to_dict(LinkedList* &list, Node* node)
         }
     }
 }
+*/

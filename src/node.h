@@ -1,18 +1,16 @@
-
 #ifndef NODE_H
 #define NODE_H
 
-#include <string>
-
+template<typename T>
 class Node
 {
-    std::string word;
+    T data;
 public:
     Node *next = nullptr;
     Node *prev = nullptr;
 
-    Node(std::string word);
+    Node(T data);
     ~Node();
-    std::string get_word();
+    T get_data();
 };
 #endif
