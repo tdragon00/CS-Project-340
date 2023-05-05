@@ -19,8 +19,8 @@ template <typename T>
 LinkedList<T>::LinkedList(Node<T>* head)
 {
     this->head = head;
-    head->prev = nullptr;
-    head->next = nullptr;
+    head->set_prev(nullptr);
+    head->set_next(nullptr);
 
     this->size = 1;
 }
@@ -30,18 +30,18 @@ LinkedList<T>::LinkedList(Node<T>* head)
 template <typename T>
 LinkedList<T>::LinkedList(Node<T>* head, Node<T>* tail)
 {
-    head->prev = nullptr;
+    head->set_prev(nullptr);
     this->head = head;
-    tail->next = nullptr;
+    tail->set_next(nullptr);
     this->size = 1;
 
-    if (this->head != tail && this->head->next != nullptr)
+    if (this->head != tail && this->head->get_next() != nullptr)
     {
-        Node<T>* counter = this->head->next;
-        while (counter->next != nullptr)
+        Node<T>* counter = this->head->get_next();
+        while (counter->get_next() != nullptr)
         {
             this->size++;
-            counter = counter->next;
+            counter = counter->get_next();
         }
     }
 
@@ -52,10 +52,10 @@ template <typename T>
 LinkedList<T>::~LinkedList()
 {
     // Should start a chain delete throughout the list
-    while (head->next != nullptr)
+    while (head->get_next() != nullptr)
     {
-        head = head->next;
-        delete head->prev;
+        head = head->get_next();
+        delete head->get_prev();
     }
 
     delete this->head;
@@ -69,11 +69,11 @@ void LinkedList<T>::push_front(T data)
     Node<T>* new_node = new Node<T>(data);
     if (this->head != nullptr)
     {
-        this->head->prev = new_node;
+        this->head->set_prev(new_node);
     }
 
-    new_node->next = this->head;
-    new_node->prev = nullptr;
+    new_node->set_next(this->head);
+    new_node->set_prev(nullptr);
 
     this->head = new_node;
     this->size++;
@@ -86,25 +86,25 @@ void LinkedList<T>::add_node(T data, bool add_to_end)
     {
         Node<T>* current_node = this->head;
         Node<T>* new_node = new Node<T>(data);
-        new_node->next = nullptr;
+        new_node->set_next(nullptr);
 
         if (current_node == nullptr)
         {
             this->head = new_node;
-            this->head->prev = nullptr;
+            this->head->set_prev(nullptr);
             this->size++;
 
             return;
         }
 
         Node<T>* last_node = this->head;
-        while (last_node->next != nullptr)
+        while (last_node->get_next() != nullptr)
         {
-            last_node = last_node->next;
+            last_node = last_node->get_next();
         }
 
-        last_node->next = new_node;
-        new_node->prev = last_node;
+        last_node->set_next(new_node);
+        new_node->set_prev(last_node);
         this->size++;
     }
 }
@@ -112,20 +112,20 @@ void LinkedList<T>::add_node(T data, bool add_to_end)
 template <typename T>
 void LinkedList<T>::add_node(T data, Node<T>* specific_node)
 {
-    Node<T>* next_node = specific_node->next;
+    Node<T>* next_node = specific_node->get_next();
     Node<T>* new_node = new Node<T>(data);
 
     if (next_node == nullptr)
     {
-        specific_node->next = new_node;
+        specific_node->set_next(new_node);
     }
     else
     {
-        next_node->next = new_node;
+        next_node->set_next(new_node);
     }
 
-    new_node->prev = specific_node;
-    new_node->next = next_node;
+    new_node->set_prev(specific_node);
+    new_node->set_next(next_node);
     this->size++;
 }
 
@@ -136,8 +136,8 @@ void LinkedList<T>::add_node(Node<T> data, Node<T>* specific_node)
 
     if (specific_node == nullptr)
     {
-        new_node->next = this->head;
-        new_node->prev = nullptr;
+        new_node->set_next(this->head);
+        new_node->set_prev(nullptr);
 
         this->head = new_node;
         this->size++;
@@ -145,19 +145,19 @@ void LinkedList<T>::add_node(Node<T> data, Node<T>* specific_node)
         return;
     }
 
-    Node<T>* previous_node = specific_node->prev;
+    Node<T>* previous_node = specific_node->get_prev();
     if (previous_node == nullptr)
     {
         this->head = new_node;
     }
     else
     {
-        previous_node->next = new_node;
+        previous_node->set_next(new_node);
     }
 
-    new_node->next = specific_node;
-    specific_node->prev = new_node;
-    new_node->prev = previous_node;
+    new_node->set_next(specific_node);
+    specific_node->set_prev(new_node);
+    new_node->set_prev(previous_node);
     this->size++;
 }
 
@@ -173,7 +173,7 @@ Node<T>* LinkedList<T>::find_node(T key)
             break;
         }
 
-        curr_node = curr_node->next;
+        curr_node = curr_node->get_next();
     }
 
     return curr_node;
@@ -185,17 +185,17 @@ Node<T>* LinkedList<T>::find_mid_node()
     Node<T>* mid_node = this->head;
     Node<T>* fast_ptr = this->head;
 
-    while (fast_ptr != nullptr && fast_ptr->next != nullptr)
+    while (fast_ptr != nullptr && fast_ptr->get_next() != nullptr)
     {
-        mid_node = mid_node->next;
-        fast_ptr = fast_ptr->next->next;
+        mid_node = mid_node->get_next();
+        fast_ptr = fast_ptr->get_next()->get_next();
     }
 
     return mid_node;
 }
 
 template <typename T>
-Node<T>* LinkedList<T>::binary_find_node(T key, Node<T>* &lower_node, int high, int lower)
+Node<T>* LinkedList<T>::binary_find_node(T key, Node<T>*& lower_node, int high, int lower)
 {
     if (key == lower_node->get_data())
     {
@@ -212,11 +212,11 @@ Node<T>* LinkedList<T>::binary_find_node(T key, Node<T>* &lower_node, int high, 
 
     while (i < high)
     {
-        if (high_node->next == nullptr)
+        if (high_node->get_next() == nullptr)
         {
             break;
         }
-        high_node = high_node->next;
+        high_node = high_node->get_next();
         i++;
     }
 
@@ -250,11 +250,11 @@ Node<T>* LinkedList<T>::binary_find_node(T key, Node<T>* &lower_node, int high, 
 
     if (key > mid_node->get_data())
     {
-        mid_node = this->binary_find_node(key, mid_node->next, high - 1, mid + 1);
+        mid_node = this->binary_find_node(key, mid_node->get_next(), high - 1, mid + 1);
     }
     else
     {
-        mid_node = this->binary_find_node(key, lower_node->next, mid - 1, lower + 1);
+        mid_node = this->binary_find_node(key, lower_node->get_next(), mid - 1, lower + 1);
     }
 
     return mid_node;
@@ -270,12 +270,12 @@ bool LinkedList<T>::remove_node(T key)
     {
         if (key_node == this->head)
         {
-            this->head = key_node->next;
-            key_node->prev = nullptr;
+            this->head = key_node->get_next();
+            key_node->set_prev(nullptr);
         }
         else
         {
-            key_node->prev->next = key_node->next;
+            key_node->get_prev()->set_next(key_node->get_next());
         }
 
         delete key_node;
@@ -295,12 +295,12 @@ bool LinkedList<T>::remove_node(Node<T>* node)
     {
         if (node == this->head)
         {
-            this->head = this->head->next;
-            node->prev = nullptr;
+            this->head = this->head->get_next();
+            node->set_prev(nullptr);
         }
         else
         {
-            node->prev->next = node->next;
+            node->get_prev()->set_next(node->get_next());
         }
 
         delete node;
@@ -313,7 +313,7 @@ bool LinkedList<T>::remove_node(Node<T>* node)
 }
 
 template <typename T>
-bool LinkedList<T>::swap_node(Node<T>* &x, Node<T>* &y)
+bool LinkedList<T>::swap_node(Node<T>*& x, Node<T>*& y)
 {
     Node<T>* deref_y = y;
     Node<T>* deref_x = x;
@@ -326,43 +326,43 @@ bool LinkedList<T>::swap_node(Node<T>* &x, Node<T>* &y)
 
     // Check if the either nodes are the head, then set
     // the other node to head
-    if (deref_x->prev == nullptr)
+    if (deref_x->get_prev() == nullptr)
     {
         this->head = deref_y;
     }
-    else if (deref_y->prev == nullptr)
+    else if (deref_y->get_prev() == nullptr)
     {
         this->head = deref_x;
     }
 
     // Set each node's next to the other node's next.
-    Node<T>* temp = deref_x->next;
-    deref_x->next = deref_y->next;
-    deref_y->next = temp;
+    Node<T>* temp = deref_x->get_next();
+    deref_x->set_next(deref_y->get_next());
+    deref_y->set_next(temp);
 
-    if (deref_x->next != nullptr)
+    if (deref_x->get_next() != nullptr)
     {
-        deref_x->next->prev = deref_x;
+        deref_x->get_next()->set_prev(deref_x);
     }
 
-    if (deref_y->next != nullptr)
+    if (deref_y->get_next() != nullptr)
     {
-        deref_y->next->prev = deref_y;
+        deref_y->get_next()->set_prev(deref_y);
     }
 
     // Set the node's previous nodes to the swapped nodes.
-    temp = deref_x->prev;
-    deref_x->prev = deref_y->prev;
-    deref_y->prev = temp;
+    temp = deref_x->get_prev();
+    deref_x->set_prev(deref_y->get_prev());
+    deref_y->set_prev(temp);
 
-    if (deref_x->prev != nullptr)
+    if (deref_x->get_prev() != nullptr)
     {
-        deref_x->prev->next = deref_x;
+        deref_x->get_prev()->set_next(deref_x);
     }
 
-    if (deref_y->prev != nullptr)
+    if (deref_y->get_prev() != nullptr)
     {
-        deref_y->prev->next = deref_y;
+        deref_y->get_prev()->set_next(deref_y);
     }
 
     // There is a weird zybooks quirk, where you have to manually
@@ -378,8 +378,8 @@ Node<T>* LinkedList<T>::back() {
 
     Node<T>* iterNode = this->head;
 
-    while (iterNode->next != nullptr) { // Use iterNode pointer to traverse to the end of the list
-        iterNode = iterNode->next;
+    while (iterNode->get_next() != nullptr) { // Use iterNode pointer to traverse to the end of the list
+        iterNode = iterNode->get_next();
     }
 
     return iterNode;
@@ -394,7 +394,7 @@ void LinkedList<T>::pop_front() {
     else {
         Node<T>* temp = this->head;
 
-        if ((this->head != nullptr) && (this->head->next == nullptr)) { // Popping the node of list that only containts one node.
+        if ((this->head != nullptr) && (this->head->get_next() == nullptr)) { // Popping the node of list that only containts one node.
             this->head = nullptr;
             temp = nullptr;
             delete temp;

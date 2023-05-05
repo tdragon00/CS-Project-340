@@ -5,6 +5,7 @@
 
 template <typename T>
 class LinkedList {
+private:
     Node<T>* head = nullptr;
     int size = 0;
 public:
@@ -18,10 +19,10 @@ public:
     void add_node(Node<T> data, Node<T>* specific_node);
     Node<T>* find_node(T key);
     Node<T>* find_mid_node();
-    Node<T>* binary_find_node(T key, Node<T>* &lower_node, int high, int lower = 1);
+    Node<T>* binary_find_node(T key, Node<T>*& lower_node, int high, int lower = 1);
     bool remove_node(T key);
     bool remove_node(Node<T>* node);
-    bool swap_node(Node<T>* &x, Node<T>* &y);
+    bool swap_node(Node<T>*& x, Node<T>*& y);
     int length() { return size; };
     Node<T>* front() { return head; };
     Node<T>* back();
