@@ -372,3 +372,66 @@ bool LinkedList<T>::swap_node(Node<T>* &x, Node<T>* &y)
 
     return true;
 }
+
+template<typename T>
+Node<T>* LinkedList<T>::back() {
+
+    Node<T>* iterNode = this->head;
+
+    while (iterNode->next != nullptr) { // Use iterNode pointer to traverse to the end of the list
+        iterNode = iterNode->next;
+    }
+
+    return iterNode;
+}
+
+template <typename T>
+void LinkedList<T>::pop_front() {
+
+    if (this->head == nullptr) {
+        cout << "Cannot pop a node from an empty list." << endl;
+    }
+    else {
+        Node<T>* temp = this->head;
+
+        if ((this->head != nullptr) && (this->head->next == nullptr)) { // Popping the node of list that only containts one node.
+            this->head = nullptr;
+            temp = nullptr;
+            delete temp;
+            this->size--;
+        }
+        else {                                // If the head node of the list is not a null pointer, create a
+            this->head = this->head->get_next();    // temp node pointer variable to hold the information of the current
+            temp = nullptr;                   // head node and set the next node of the current head node to new head node. 
+            delete temp;                      // Set the previous node of the new head node (old head node) to null pointer,
+            this->size--;                     // and delete the old head node. Also, decrease the size of the list by 1.
+        }
+    }
+}
+
+template <typename T>
+void LinkedList<T>::pop_back() {
+
+    if (this->head == nullptr) {
+        cout << "Cannot pop a node from an empty list." << endl;
+    }
+    else {
+        Node<T>* temp = this->head;
+
+        if ((this->head != nullptr) && (this->head->get_next() == nullptr)) {
+            this->head = nullptr;
+            temp = nullptr;
+            delete temp;
+            this->size--;
+        }
+        else {
+            while (temp->get_next() != nullptr) {
+                temp = temp->get_next();
+            }
+            temp->get_prev()->set_next(nullptr);
+            temp = nullptr;
+            delete temp;
+            this->size--;
+        }
+    }
+}

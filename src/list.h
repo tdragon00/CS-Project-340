@@ -24,6 +24,9 @@ public:
     bool swap_node(Node<T>* &x, Node<T>* &y);
     int length() { return size; };
     Node<T>* front() { return head; };
+    Node<T>* back();
+    void pop_front();
+    void pop_back();
 };
 
 #endif
