@@ -248,13 +248,16 @@ Node<T>* LinkedList<T>::binary_find_node(T key, Node<T>*& lower_node, int high, 
         return high_node;
     }
 
+    Node<T>* ref_node;
     if (key > mid_node->get_data())
     {
-        mid_node = this->binary_find_node(key, mid_node->get_next(), high - 1, mid + 1);
+        ref_node = mid_node->get_next(); 
+        mid_node = this->binary_find_node(key, ref_node, high - 1, mid + 1);
     }
     else
     {
-        mid_node = this->binary_find_node(key, lower_node->get_next(), mid - 1, lower + 1);
+        ref_node = lower_node->get_next(); 
+        mid_node = this->binary_find_node(key, ref_node, mid - 1, lower + 1);
     }
 
     return mid_node;
@@ -386,21 +389,26 @@ Node<T>* LinkedList<T>::back() {
 }
 
 template <typename T>
-void LinkedList<T>::pop_front() {
+void LinkedList<T>::pop_front() 
+{
 
-    if (this->head == nullptr) {
+    if (this->head == nullptr)
+    {
         cout << "Cannot pop a node from an empty list." << endl;
     }
-    else {
+    else 
+    {
         Node<T>* temp = this->head;
 
-        if ((this->head != nullptr) && (this->head->get_next() == nullptr)) { // Popping the node of list that only containts one node.
+        if ((this->head != nullptr) && (this->head->get_next() == nullptr)) 
+        { // Popping the node of list that only containts one node.
             this->head = nullptr;
             temp = nullptr;
             delete temp;
             this->size--;
         }
-        else {                                // If the head node of the list is not a null pointer, create a
+        else 
+        {                                // If the head node of the list is not a null pointer, create a
             this->head = this->head->get_next();    // temp node pointer variable to hold the information of the current
             temp = nullptr;                   // head node and set the next node of the current head node to new head node. 
             delete temp;                      // Set the previous node of the new head node (old head node) to null pointer,
@@ -410,22 +418,28 @@ void LinkedList<T>::pop_front() {
 }
 
 template <typename T>
-void LinkedList<T>::pop_back() {
+void LinkedList<T>::pop_back() 
+{
 
-    if (this->head == nullptr) {
+    if (this->head == nullptr) 
+    {
         cout << "Cannot pop a node from an empty list." << endl;
     }
-    else {
+    else 
+    {
         Node<T>* temp = this->head;
 
-        if ((this->head != nullptr) && (this->head->get_next() == nullptr)) {
+        if ((this->head != nullptr) && (this->head->get_next() == nullptr))
+        {
             this->head = nullptr;
             temp = nullptr;
             delete temp;
             this->size--;
         }
-        else {
-            while (temp->get_next() != nullptr) {
+        else 
+        {
+            while (temp->get_next() != nullptr)
+            {
                 temp = temp->get_next();
             }
             temp->get_prev()->set_next(nullptr);
