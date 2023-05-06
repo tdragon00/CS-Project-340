@@ -9,9 +9,10 @@ private:
     Node* next = nullptr;
     Node* prev = nullptr;
 public:
-    Node(T &data);
+    Node(T data);
     ~Node();
     T get_data() const;
+    void set_data(T data);
 
     Node<T>* get_next() const;
     void set_next(Node* newNode);

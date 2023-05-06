@@ -1,7 +1,7 @@
 #include "node.h"
 
 template <typename T>
-Node<T>::Node(T &data)
+Node<T>::Node(T data)
 {
     this->data = new T(data);
 }
@@ -19,6 +19,13 @@ template <typename T>
 T Node<T>::get_data() const
 {
     return *this->data;
+}
+
+template <typename T>
+void Node<T>::set_data(T data)
+{
+    delete this->data;
+    this->data = new T(data);
 }
 
 template <typename T>

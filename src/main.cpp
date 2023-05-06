@@ -73,6 +73,8 @@ int main()
     if (test_node != nullptr)
     {
         cout << test_node->get_data() << endl;
+
+        test_node->set_data("wassup");
     }
 
     cout << "Hello dlrow" << endl;
