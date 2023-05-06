@@ -163,7 +163,7 @@ void LinkedList<T>::add_node(Node<T> data, Node<T>* specific_node)
 
 // Just a linear search to find the specific node
 template <typename T>
-Node<T>* LinkedList<T>::find_node(T key)
+Node<T>* LinkedList<T>::find_node(T key) const
 {
     Node<T>* curr_node = this->head;
     while (curr_node != nullptr)
@@ -180,7 +180,7 @@ Node<T>* LinkedList<T>::find_node(T key)
 }
 
 template <typename T>
-Node<T>* LinkedList<T>::find_mid_node()
+Node<T>* LinkedList<T>::find_mid_node() const
 {
     Node<T>* mid_node = this->head;
     Node<T>* fast_ptr = this->head;
@@ -195,7 +195,7 @@ Node<T>* LinkedList<T>::find_mid_node()
 }
 
 template <typename T>
-Node<T>* LinkedList<T>::binary_find_node(T key, Node<T>*& lower_node, int high, int lower)
+Node<T>* LinkedList<T>::binary_find_node(T key, Node<T>*& lower_node, int high, int lower) const
 {
     if (key == lower_node->get_data())
     {
@@ -377,7 +377,8 @@ bool LinkedList<T>::swap_node(Node<T>*& x, Node<T>*& y)
 }
 
 template<typename T>
-Node<T>* LinkedList<T>::back() {
+Node<T>* LinkedList<T>::back() const
+{
 
     Node<T>* iterNode = this->head;
 
