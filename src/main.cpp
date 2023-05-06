@@ -56,7 +56,7 @@ void sort_dicts(LinkedList* &list, Node* node_1, Node* node_2);
 */
 
 template <typename T>
-void print(LinkedList<T> list);
+void print(LinkedList<T> &list);
 
 int main()
 {
@@ -65,7 +65,6 @@ int main()
     test.push_front("hi");
     test.push_front("ww");
 
-    
     Node<string>* head = test.front();
     cout << head->get_data() << endl;
 
@@ -82,13 +81,13 @@ int main()
 }
 
 template <typename T>
-void print(LinkedList<T> list) 
+void print(LinkedList<T> &list) 
 {
     Node<T>* iter = list.front();
     for (int i = 0; i < list.length(); i++) 
     {
         cout << iter->get_data() << endl;
-        iter = iter->next;
+        iter = iter->get_next();
     }
 }
 
