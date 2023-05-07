@@ -14,7 +14,7 @@ public:
     LinkedList(Node<T>* head);
     LinkedList(Node<T>* head, Node<T>* tail);
     void push_front(T data);
-    void add_node(T data, bool add_to_end);
+    void push_back(T data);
     void add_node(T data, Node<T>* specific_node);
     void add_node(Node<T> data, Node<T>* specific_node);
     Node<T>* find_node(T key) const;

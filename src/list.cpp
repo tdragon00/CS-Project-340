@@ -65,7 +65,7 @@ template <typename T>
 void LinkedList<T>::push_front(T data)
 {
 
-    cout << "push_front called";
+    //cout << "push_front called";
     Node<T>* new_node = new Node<T>(data);
     if (this->head != nullptr)
     {
@@ -80,10 +80,10 @@ void LinkedList<T>::push_front(T data)
 }
 
 template <typename T>
-void LinkedList<T>::add_node(T data, bool add_to_end)
+void LinkedList<T>::push_back(T data)
 {
-    if (add_to_end)
-    {
+   
+    
         Node<T>* current_node = this->head;
         Node<T>* new_node = new Node<T>(data);
         new_node->set_next(nullptr);
@@ -106,7 +106,7 @@ void LinkedList<T>::add_node(T data, bool add_to_end)
         last_node->set_next(new_node);
         new_node->set_prev(last_node);
         this->size++;
-    }
+    
 }
 
 template <typename T>

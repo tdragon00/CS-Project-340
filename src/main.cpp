@@ -38,6 +38,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <conio.h> // for getch
 
 
 #include "list.h"
@@ -57,9 +58,119 @@ void sort_dicts(LinkedList* &list, Node* node_1, Node* node_2);
 
 template <typename T>
 void print(LinkedList<T> &list);
+void print_menu();
+
+
+
+
+char print_typemenu() 
+{
+    char type;
+    while (1)
+    {
+        cout << "What data type do you want this list to be " << endl;
+        cout << "1: int" << endl;
+        cout << "2: string" << endl;
+        //cout << "c: char" << endl;
+        cin.get(type);
+        if (type == '1' || type == '2' || type == '3')
+        {
+            return type;
+            break;
+        }
+        cout << "Invalid input try again " << endl;
+    }
+}
+
+int intprompt();
+
 
 int main()
 {
+
+    
+    //since c++ is statically typed things here are about to get real ugly
+    LinkedList<int> intlist;
+    LinkedList<string> stringlist;
+ 
+
+    char type = print_typemenu();
+
+    char choice = 's';
+
+    //main loop
+    while (choice != 'q')
+    {
+
+        //printing menu and getting the users choice 
+         print_menu();
+         
+         cin.get();
+        choice = getchar();
+        //clearing the buffer
+        //fflush(stdin);
+
+        switch (type)
+        {
+            //int case
+        case '1':
+
+            //switch case int
+            switch (choice)
+            {
+            case '1':
+                //insert at front
+                intlist.push_front(intprompt());
+                break;
+
+            case '2':
+                //insert at back
+                intlist.push_back(intprompt());
+                break;
+
+            case '3':
+
+                //search
+                cout << "coming soon" << endl;;
+                break;
+
+            case '4':
+                print(intlist);
+                //print
+
+                break;
+
+            default:
+                break;
+            }
+
+
+            break;
+            //string case
+        case '2':
+
+
+            break;
+            //char case
+        case '3':
+
+
+
+
+            break;
+        default:
+            break;
+        }
+
+
+    }
+
+    
+
+
+
+    /*
+
     LinkedList<string> test = LinkedList<string>();
 
     test.push_front("hi");
@@ -69,6 +180,14 @@ int main()
     cout << head->get_data() << endl;
 
     Node<string>* test_node = test.binary_find_node("hi", head, test.length());
+
+
+
+
+
+
+
+
 
     if (test_node != nullptr)
     {
@@ -80,6 +199,8 @@ int main()
     cout << "Hello dlrow" << endl;
 
     print(test);
+
+    */
 }
 
 template <typename T>
@@ -92,6 +213,50 @@ void print(LinkedList<T> &list)
         iter = iter->get_next();
     }
 }
+
+
+//simple menu for displaying the options
+void print_menu()
+{
+    cout << "__________________________________________" << endl;
+    cout << " 1 Insert at the front" << endl;
+    cout << " 2 Insert at the back" << endl;
+    cout << " 3 Search" << endl;
+    cout << " 4 print" << endl;
+    //cout << " 5" << endl;
+    //cout << " 6 change the list type" << endl;
+    cout << "q quit the program" << endl;
+    cout << "__________________________________________" << endl;
+}
+
+
+
+bool isdigits(string s) {
+    for (int i = 0; i < s.length(); i++) {
+        if (!isdigit(s[i])) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int intprompt() 
+{
+
+    string x;
+while(1)
+{
+    cout << "please enter an int " << endl;
+    cin >> x;
+    if (isdigits(x)) 
+    {
+        return  stoi(x);
+    }
+}
+
+}
+
+
 
 /*
 void linear_sort(LinkedList* &list)
