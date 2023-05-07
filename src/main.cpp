@@ -89,8 +89,17 @@ int main()
     SkipList test2 = SkipList<string>();
 
     test2.insert("XDDD");
+    test2.insert("ABC");
+    test2.insert("abc");
+    test2.insert("DEF");
+    test2.insert("ZXY");
 
-    cout << test2.front()->get_down()->get_data() << endl;
+    // Temporary print testing
+    cout << test2.front()->get_data() << endl;
+    cout << test2.front()->get_next()->get_data() << endl;
+    cout << test2.front()->get_next()->get_next()->get_data() << endl;
+    cout << test2.front()->get_next()->get_next()->get_next()->get_data() << endl;
+    cout << test2.front()->get_next()->get_next()->get_next()->get_next()->get_data() << endl;
 }
 
 template <typename T>
