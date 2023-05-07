@@ -97,7 +97,10 @@ int main()
     char type = print_typemenu();
 
     char choice = 's';
+     
 
+
+    string target;
     //main loop
     while (choice != 'q')
     {
@@ -148,6 +151,38 @@ int main()
             break;
             //string case
         case '2':
+
+            //switch case string
+            switch (choice)
+            {
+            case '1':
+                //insert at front
+                cin >> target;
+                stringlist.push_front(target);
+                break;
+
+            case '2':
+                //insert at back
+                cin >> target;
+                stringlist.push_back(target);
+                break;
+
+            case '3':
+
+                //search
+                cout << "coming soon" << endl;;
+                break;
+
+            case '4':
+                print(stringlist);
+                //print
+
+                break;
+
+            default:
+                break;
+            }
+
 
 
             break;
