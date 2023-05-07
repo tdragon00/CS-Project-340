@@ -15,6 +15,7 @@ public:
     SkipList();
     void insert(T data);
     void remove(T data);
+    void pretty_print();
 
     int length() const { return size; };
     SkipNode<T>* front() const { return head; };

@@ -93,6 +93,7 @@ int main()
     test2.insert("abc");
     test2.insert("DEF");
     test2.insert("ZXY");
+    test2.insert("ZXY");
 
     // Temporary print testing
     cout << test2.front()->get_data() << endl;
@@ -100,6 +101,8 @@ int main()
     cout << test2.front()->get_next()->get_next()->get_data() << endl;
     cout << test2.front()->get_next()->get_next()->get_next()->get_data() << endl;
     cout << test2.front()->get_next()->get_next()->get_next()->get_next()->get_data() << endl;
+
+    test2.pretty_print();
 }
 
 template <typename T>

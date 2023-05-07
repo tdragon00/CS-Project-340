@@ -27,12 +27,27 @@ SkipList<T>::SkipList()
 }
 
 template <typename T>
-SkipNode<T>* iter_to_bottom(SkipNode<T>* &start)
+SkipNode<T>* iter_to_layer(SkipNode<T>* &start, int level=0)
 {
     SkipNode<T>* curr_node = start;
-    while (curr_node->get_down() != nullptr)
+    int curr_level = level;
+    while (curr_node->get_down() != nullptr && curr_level < MAX_LEVELS)
     {
         curr_node = curr_node->get_down();
+        curr_level++;
+    }
+
+    return curr_node;
+}
+
+template <typename T>
+SkipNode<T>* reverse_srch_up(SkipNode<T>* &start)
+{
+    // Searches for the nearest node with an up pointer in reverse order
+    SkipNode<T>* curr_node = start;
+    while (curr_node->get_up() == nullptr)
+    {
+        curr_node = curr_node->get_prev();
     }
 
     return curr_node;
@@ -46,8 +61,8 @@ void SkipList<T>::insert(T data)
     {
         head = new_node;
 
-        SkipNode<T>* prev_node = iter_to_bottom(priv_head);
-        head->set_prev(iter_to_bottom(prev_node));
+        SkipNode<T>* prev_node = iter_to_layer(priv_head);
+        head->set_prev(iter_to_layer(prev_node));
         prev_node->set_next(head);
         size++;
 
@@ -56,8 +71,23 @@ void SkipList<T>::insert(T data)
 
     SkipNode<T>* insert_node = search(data, priv_head);
 
-    if (new_node->get_data() > insert_node->get_data())
+    // floor the node
+    insert_node = iter_to_layer(insert_node);
+    if (insert_node->get_prev() == nullptr)
     {
+        if (insert_node->get_next() != nullptr)
+        {
+            SkipNode<T>* temp = insert_node->get_next();
+            temp->set_prev(new_node);
+            new_node->set_next(temp);
+        }
+
+        new_node->set_prev(insert_node);
+        insert_node->set_next(new_node);
+    }
+    else if (new_node->get_data() > insert_node->get_data())
+    {
+        cout << "INSERT: " << insert_node->get_data() << endl;
         if (insert_node->get_next() != nullptr)
         {
             SkipNode<T>* temp = insert_node->get_next();
@@ -73,12 +103,6 @@ void SkipList<T>::insert(T data)
         if (insert_node->get_prev() != nullptr)
         {
             SkipNode<T>* temp = insert_node->get_prev();
-            if (temp->get_prev() != nullptr)
-            {
-                SkipNode<T>* prev_temp = temp->get_prev();
-                prev_temp->set_next(new_node);
-                new_node->set_prev(prev_temp);
-            }
             temp->set_next(new_node);
             new_node->set_prev(temp);
         }
@@ -87,8 +111,48 @@ void SkipList<T>::insert(T data)
         insert_node->set_prev(new_node);
     }
 
-    // TODO: add levels to node via coin flip
-    if (insert_node == head)
+    // Should split this into a separate function
+    SkipNode<T>* nearest_up_node = reverse_srch_up(new_node);
+    int flip = flip_coin();
+    int lvls_added = 0;
+    SkipNode<T>* layer_node = new_node;
+    while (flip != 0 && lvls_added < MAX_LEVELS - 1)
+    {
+        SkipNode<T>* clone_node = new SkipNode<T>(data);
+        clone_node->set_down(layer_node);
+        layer_node->set_up(clone_node);
+
+        SkipNode<T>* up_node = nearest_up_node->get_up();
+        if (up_node != nullptr)
+        {
+            SkipNode<T>* nxt_up_node = up_node->get_next();
+            if (nxt_up_node != nullptr)
+            {
+                if (nxt_up_node->get_next() != nullptr)
+                {
+                    SkipNode<T>* temp = nxt_up_node->get_next();
+                    temp->set_prev(clone_node);
+                    clone_node->set_next(temp);
+                }
+            }
+
+            clone_node->set_prev(up_node);
+            up_node->set_next(clone_node);
+        }
+
+        nearest_up_node = reverse_srch_up(up_node);
+        flip = flip_coin();
+        layer_node = clone_node;
+        lvls_added++;
+
+        cout << lvls_added <<" layer added" << endl;
+    }
+
+    if (insert_node->get_prev() == nullptr)
+    {
+        head = new_node;
+    }
+    else if (insert_node == head)
     {
         if (new_node->get_data() < head->get_data())
         {
@@ -103,12 +167,22 @@ template <typename T>
 SkipNode<T>* SkipList<T>::search(T data, SkipNode<T>* head, bool is_begin) const
 {
     SkipNode<T>* curr_node = head;
+    if (!is_begin)
+    {
+        if (curr_node->get_prev() != nullptr)
+        {
+            if (curr_node->get_data() == data && !is_begin)
+            {
+                return curr_node;
+            }
+        }
+    }
 
     if (curr_node->get_next() == nullptr)
     {
         if (curr_node->get_down() != nullptr)
         {
-            return this->search(data, curr_node->get_down());
+            return this->search(data, curr_node->get_down(), is_begin);
         }
         else
         {
@@ -120,37 +194,21 @@ SkipNode<T>* SkipList<T>::search(T data, SkipNode<T>* head, bool is_begin) const
     if (is_begin)
     {
         is_begin = false;
-        curr_node = curr_node->get_next();
     }
 
-    if (curr_node->get_data() == data)
+    if (curr_node->get_next()->get_data() > data)
     {
-        return curr_node;
-    }
-    else if (curr_node->get_next() != nullptr)
-    {
-        if (curr_node->get_next()->get_data() > data)
+        if (curr_node->get_down() != nullptr)
         {
-            if (curr_node->get_down() != nullptr)
-            {
-                return this->search(data, curr_node->get_down(), is_begin);
-            }
-            else
-            {
-                return curr_node;
-            }
+            return this->search(data, curr_node->get_down(), is_begin);
         }
         else
         {
-            return this->search(data, curr_node->get_next(), is_begin);
+            return curr_node;
         }
     }
     else
     {
-        if (curr_node->get_next() == nullptr)
-        {
-            return curr_node;
-        }
         return this->search(data, curr_node->get_next(), is_begin);
     }
 
@@ -158,10 +216,40 @@ SkipNode<T>* SkipList<T>::search(T data, SkipNode<T>* head, bool is_begin) const
 }
 
 template <typename T>
+void SkipList<T>::pretty_print()
+{
+    SkipNode<T>* curr_layer = priv_head;
+    SkipNode<T>* head_node = curr_layer->get_next();
+
+    while (curr_layer != nullptr)
+    {
+        while (head_node != nullptr)
+        {
+            if (head_node != nullptr)
+            {
+                cout << head_node->get_data() << "-> ";
+                head_node = head_node->get_next();
+            }
+        }
+
+        cout << endl;
+        if (curr_layer != nullptr)
+        {
+            curr_layer = curr_layer->get_down();
+
+            if (curr_layer != nullptr)
+            {
+                head_node = curr_layer->get_next();
+            }
+        }
+    }
+}
+
+template <typename T>
 int SkipList<T>::flip_coin()
 {
     int face = rand() % 2;
 
-    cout << face << endl;
+    // cout << face << endl;
     return face;
 }
