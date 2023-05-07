@@ -43,6 +43,11 @@
 #include "list.h"
 #include "list.cpp"
 
+#include "skip_list.h"
+#include "skip_list.cpp"
+
+#include "node.h"
+
 using namespace std;
 
 /*
@@ -80,6 +85,12 @@ int main()
     cout << "Hello dlrow" << endl;
 
     print(test);
+
+    SkipList test2 = SkipList<string>();
+
+    test2.insert("XDDD");
+
+    cout << test2.front()->get_down()->get_data() << endl;
 }
 
 template <typename T>
