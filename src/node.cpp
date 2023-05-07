@@ -51,3 +51,9 @@ void Node<T>::set_prev(Node* newNode)
 {
     this->prev = newNode;
 }
+
+template <typename T>
+void SkipNode<T>::set_down(SkipNode<T>* down_node)
+{
+    this->down = down_node;
+}
