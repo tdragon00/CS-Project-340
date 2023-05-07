@@ -1,6 +1,12 @@
 #include "node.h"
 
 template <typename T>
+Node<T>::Node()
+{
+    this->data = nullptr;
+}
+
+template <typename T>
 Node<T>::Node(T data)
 {
     this->data = new T(data);
@@ -53,7 +59,25 @@ void Node<T>::set_prev(Node* newNode)
 }
 
 template <typename T>
-void SkipNode<T>::set_down(SkipNode<T>* down_node)
+void SkipNode<T>::set_down(SkipNode<T>* new_node)
 {
-    this->down = down_node;
+    this->down = new_node;
+}
+
+template <typename T>
+void SkipNode<T>::set_up(SkipNode<T>* new_node)
+{
+    this->up = new_node;
+}
+
+template <typename T>
+void SkipNode<T>::set_next(SkipNode<T>* new_node)
+{
+    this->next = new_node;
+}
+
+template <typename T>
+void SkipNode<T>::set_prev(SkipNode<T>* new_node)
+{
+    this->prev = new_node;
 }
