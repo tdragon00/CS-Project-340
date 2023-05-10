@@ -35,12 +35,9 @@
   `deconstruct()` - deletes every node and the list itself.
 */
 
-#include <string>
-#include <iostream>
-#include <vector>
+#include <string>   // for string
+#include <iostream> //  for stdcout 
 #include <conio.h> // for getch
-
-
 #include "list.h"
 #include "list.cpp"
 
@@ -59,66 +56,43 @@ void sort_dicts(LinkedList* &list, Node* node_1, Node* node_2);
 template <typename T>
 void print(LinkedList<T> &list);
 void print_menu();
-
-
-
-
-char print_typemenu() 
-{
-    char type;
-    while (1)
-    {
-        cout << "What data type do you want this list to be " << endl;
-        cout << "1: int" << endl;
-        cout << "2: string" << endl;
-        //cout << "c: char" << endl;
-        cin.get(type);
-        if (type == '1' || type == '2' || type == '3')
-        {
-            return type;
-            break;
-        }
-        cout << "Invalid input try again " << endl;
-    }
-}
-
+char print_typemenu();
 int intprompt();
 
+//this is our main driver function it will display a menu with several options to use 
+//different lists
 
 int main()
-{
-
-    
+{    
     //since c++ is statically typed things here are about to get real ugly
+    //creating our lists for int and string
     LinkedList<int> intlist;
     LinkedList<string> stringlist;
- 
-
+    
+    //type of the list we have
     char type = print_typemenu();
-
+    //variable to store the choice of the menu this is not the same as above
     char choice = 's';
-     
-
-
+    //container to hold inputs since strings can't really be fed wrong info
     string target;
     //main loop
     while (choice != 'q')
     {
-
         //printing menu and getting the users choice 
          print_menu();
          
+           //clearing the buffer
          cin.get();
         choice = getchar();
-        //clearing the buffer
-        //fflush(stdin);
-
+      
+      //switch case to determine what data we are using 
         switch (type)
         {
             //int case
         case '1':
 
             //switch case int
+            //this switch statement is used to determine what actions are going to be taken on the list
             switch (choice)
             {
             case '1':
@@ -153,6 +127,8 @@ int main()
         case '2':
 
             //switch case string
+            //this switch statement is used to determine what actions are going to be taken on the list
+
             switch (choice)
             {
             case '1':
@@ -216,14 +192,6 @@ int main()
 
     Node<string>* test_node = test.binary_find_node("hi", head, test.length());
 
-
-
-
-
-
-
-
-
     if (test_node != nullptr)
     {
         cout << test_node->get_data() << endl;
@@ -238,6 +206,7 @@ int main()
     */
 }
 
+//simple print function 
 template <typename T>
 void print(LinkedList<T> &list) 
 {
@@ -265,7 +234,7 @@ void print_menu()
 }
 
 
-
+//helper function to determine if the string only contains digits
 bool isdigits(string s) {
     for (int i = 0; i < s.length(); i++) {
         if (!isdigit(s[i])) {
@@ -275,9 +244,9 @@ bool isdigits(string s) {
     return true;
 }
 
+//this prompts the user to enter an int it will continue until we only get digits.
 int intprompt() 
 {
-
     string x;
 while(1)
 {
@@ -288,9 +257,27 @@ while(1)
         return  stoi(x);
     }
 }
-
 }
 
+//this prints the type menu this is only used once.
+char print_typemenu() 
+{
+    char type;
+    while (1)
+    {
+        cout << "What data type do you want this list to be " << endl;
+        cout << "1: int" << endl;
+        cout << "2: string" << endl;
+        //cout << "c: char" << endl;
+        cin.get(type);
+        if (type == '1' || type == '2' || type == '3')
+        {
+            return type;
+            break;
+        }
+        cout << "Invalid input try again " << endl;
+    }
+}
 
 
 /*
