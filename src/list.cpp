@@ -1,20 +1,25 @@
-#include <string>
-#include <iostream>
-#include <vector>
+/*
+This is a linked list cpp this inculdes the implementation for all functions built for
+the linked list.
 
+
+*/
+//#include <string>
+//#include <iostream>
+//#include <vector>
 #include "node.h"
 #include "node.cpp"
-
 #include "list.h"
-
 using namespace std;
 
+//default constructor
 template <typename T>
 LinkedList<T>::LinkedList() {
     this->head = nullptr;
     this->size = 0;
 }
 
+//constructor with head node
 template <typename T>
 LinkedList<T>::LinkedList(Node<T>* head)
 {
@@ -27,6 +32,7 @@ LinkedList<T>::LinkedList(Node<T>* head)
 
 
 //potential scope issue
+//constructor with head and tail node
 template <typename T>
 LinkedList<T>::LinkedList(Node<T>* head, Node<T>* tail)
 {
@@ -61,6 +67,7 @@ LinkedList<T>::~LinkedList()
     delete this->head;
 }
 
+//this function pushes data to the front of the list.
 template <typename T>
 void LinkedList<T>::push_front(T data)
 {
@@ -79,6 +86,7 @@ void LinkedList<T>::push_front(T data)
     this->size++;
 }
 
+//this function pushes a data node to the back of the list.
 template <typename T>
 void LinkedList<T>::push_back(T data)
 {
@@ -109,6 +117,7 @@ void LinkedList<T>::push_back(T data)
     
 }
 
+//inserts a a new node after a specific node.
 template <typename T>
 void LinkedList<T>::add_node(T data, Node<T>* specific_node)
 {
@@ -129,6 +138,7 @@ void LinkedList<T>::add_node(T data, Node<T>* specific_node)
     this->size++;
 }
 
+//inserts a node after a specific node.
 template <typename T>
 void LinkedList<T>::add_node(Node<T> data, Node<T>* specific_node)
 {
@@ -179,6 +189,7 @@ Node<T>* LinkedList<T>::find_node(T key) const
     return curr_node;
 }
 
+//this finds the middle node of the list
 template <typename T>
 Node<T>* LinkedList<T>::find_mid_node() const
 {
@@ -194,6 +205,7 @@ Node<T>* LinkedList<T>::find_mid_node() const
     return mid_node;
 }
 
+//this is a binary search to find an item in the list. requires find mid node to be implemented
 template <typename T>
 Node<T>* LinkedList<T>::binary_find_node(T key, Node<T>*& lower_node, int high, int lower) const
 {
@@ -263,6 +275,7 @@ Node<T>* LinkedList<T>::binary_find_node(T key, Node<T>*& lower_node, int high, 
     return mid_node;
 }
 
+//this removes a node from the list via data
 template <typename T>
 bool LinkedList<T>::remove_node(T key)
 {
@@ -290,6 +303,7 @@ bool LinkedList<T>::remove_node(T key)
     return result;
 }
 
+//this removes a node from the list via node
 template <typename T>
 bool LinkedList<T>::remove_node(Node<T>* node)
 {
@@ -314,7 +328,7 @@ bool LinkedList<T>::remove_node(Node<T>* node)
 
     return result;
 }
-
+//this function swaps two nodes
 template <typename T>
 bool LinkedList<T>::swap_node(Node<T>*& x, Node<T>*& y)
 {
@@ -376,6 +390,7 @@ bool LinkedList<T>::swap_node(Node<T>*& x, Node<T>*& y)
     return true;
 }
 
+//returns the last node
 template<typename T>
 Node<T>* LinkedList<T>::back() const
 {
@@ -389,6 +404,7 @@ Node<T>* LinkedList<T>::back() const
     return iterNode;
 }
 
+//returns the top node and removes it.
 template <typename T>
 void LinkedList<T>::pop_front() 
 {
@@ -418,6 +434,7 @@ void LinkedList<T>::pop_front()
     }
 }
 
+//returns the last node and removes it from the list.
 template <typename T>
 void LinkedList<T>::pop_back() 
 {
