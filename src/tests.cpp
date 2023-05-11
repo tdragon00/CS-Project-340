@@ -208,4 +208,14 @@ int main() {
 	print(list);
 	cout << "------------------------------------------------------------------------------" << endl;
 	cout << endl;
+
+
+	
+	cout << "Find node contains the word \"banana\" by calling list.binary_find_node() and use get_data() to get the word stored in that node. \nExpected result:" << endl;
+	cout << "banana" << endl;
+	cout << endl;
+
+	cout << "Actutal result:" << endl;
+	Node<string>* head = list.front();
+	cout << list.binary_find_node("banana", head, 3)->get_data() << endl;
 }
