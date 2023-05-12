@@ -31,7 +31,6 @@ class SkipNode : public Node<T>
 public:
     SkipNode() : Node<T>() {};
     SkipNode(T data) : Node<T>(data) {};
-    ~SkipNode();
 
     SkipNode<T>* get_down() const { return down; };
     SkipNode<T>* get_up() const { return up; };
