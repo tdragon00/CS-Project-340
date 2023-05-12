@@ -245,6 +245,74 @@ void SkipList<T>::pretty_print()
 }
 
 template <typename T>
+bool SkipList<T>::remove_node(T data)
+{
+    SkipNode<T>* key_node = search(data, priv_head);
+
+    if (key_node->get_data() == data)
+    {
+        SkipNode<T>* base_node = iter_to_layer(key_node);
+
+        remove_node(base_node);
+
+        return true;
+    }
+
+    return false;
+}
+
+template <typename T>
+bool SkipList<T>::remove_node(SkipNode<T>* node)
+{
+    SkipNode<T>* curr_node = node->get_up();
+
+    // remove the bottom node first
+    SkipNode<T>* next_node = node->get_next();
+    SkipNode<T>* prev_node = node->get_prev();
+
+    if (next_node != nullptr)
+    {
+        next_node->set_prev(prev_node);
+    }
+
+    if (prev_node != nullptr)
+    {
+        prev_node->set_next(next_node);
+    }
+
+    if (node->get_up() != nullptr)
+    {
+        while (curr_node->get_up() != nullptr)
+        {
+            next_node = curr_node->get_next();
+            prev_node = curr_node->get_prev();
+
+            if (next_node != nullptr)
+            {
+                next_node->set_prev(prev_node);
+            }
+
+            if (prev_node != nullptr)
+            {
+                prev_node->set_next(next_node);
+            }
+
+            SkipNode<T>* temp = curr_node;
+            curr_node = curr_node->get_up();
+            delete curr_node->get_down();
+        }
+    }
+    else
+    {
+        delete curr_node;
+    }
+
+
+    this->size--;
+    return true;
+}
+
+template <typename T>
 int SkipList<T>::flip_coin()
 {
     int face = rand() % 2;

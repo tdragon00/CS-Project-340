@@ -20,6 +20,8 @@ public:
     int length() const { return size; };
     SkipNode<T>* front() const { return head; };
     SkipNode<T>* search(T data, SkipNode<T>* head=nullptr, bool is_begin=true) const;
+    bool remove_node(T data);
+    bool remove_node(SkipNode<T>* node);
 };
 
 #endif
