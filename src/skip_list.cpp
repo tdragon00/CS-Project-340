@@ -130,9 +130,8 @@ void SkipList<T>::insert(T data)
             {
                 if (nxt_up_node->get_next() != nullptr)
                 {
-                    SkipNode<T>* temp = nxt_up_node->get_next();
-                    temp->set_prev(clone_node);
-                    clone_node->set_next(temp);
+                    nxt_up_node->set_prev(clone_node);
+                    clone_node->set_next(nxt_up_node);
                 }
             }
 
