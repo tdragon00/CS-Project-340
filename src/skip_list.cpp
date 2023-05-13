@@ -166,7 +166,15 @@ void SkipList<T>::insert(T data)
 template <typename T>
 SkipNode<T>* SkipList<T>::search(T data, SkipNode<T>* head, bool is_begin) const
 {
-    SkipNode<T>* curr_node = head;
+    SkipNode<T>* curr_node;
+    if (head == nullptr)
+    {
+        curr_node = priv_head;
+    }
+    else
+    {
+        curr_node = head;
+    }
     if (!is_begin)
     {
         if (curr_node->get_prev() != nullptr)
