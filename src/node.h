@@ -9,6 +9,7 @@ private:
     Node* next = nullptr; //pointer to next node
     Node* prev = nullptr; //pointer to previous node
 public:
+    Node();
     Node(T data); //constructor with data
     ~Node(); //destructor
     T get_data() const; //getter
@@ -19,7 +20,6 @@ public:
     Node<T>* get_prev() const; // gets the previous node can return null
     void set_prev(Node* newNode); //sets the previous node not nullsafe
 };
-
 
 template<typename T>
 class SkipNode : public Node<T>
@@ -41,6 +41,5 @@ public:
     void set_prev(SkipNode<T>* new_node);
     void set_next(SkipNode<T>* new_node);
 };
-
 
 #endif

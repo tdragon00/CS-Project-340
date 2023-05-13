@@ -41,6 +41,11 @@
 #include "list.h"
 #include "list.cpp"
 
+#include "skip_list.h"
+#include "skip_list.cpp"
+
+#include "node.h"
+
 using namespace std;
 
 /*

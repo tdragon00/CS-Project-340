@@ -1,10 +1,7 @@
 #include <vector>
 #include <time.h>
-#include <cstdlib>
-#include <iostream>
 
 #include "skip_list.h"
-using namespace std;
 
 static const int MAX_LEVELS = 5;
 
@@ -320,6 +317,5 @@ int SkipList<T>::flip_coin()
 {
     int face = rand() % 2;
 
-    // cout << face << endl;
     return face;
 }
