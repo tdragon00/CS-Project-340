@@ -312,6 +312,53 @@ bool SkipList<T>::remove_node(SkipNode<T>* node)
     return true;
 }
 
+template<typename T>
+void SkipList<T>::pop_front() {
+    if (this->head == nullptr) {
+        cout << "Cannot pop a node from an empty list." << endl;
+        return;
+    }
+
+    if (this->head != nullptr && this->head->get_next() == nullptr) {
+        SkipNode<T>* temp = this->head;
+        this->head = nullptr;
+        remove_node(temp);
+    }
+    else {
+        SkipNode<T>* curr_head = this->head;
+        while (curr_head->get_down() != nullptr) {
+            curr_head = curr_head->get_down();
+        }
+        this->head = curr_head->get_next();
+        remove_node(this->head->get_prev());
+    }
+}
+
+template<typename T>
+void SkipList<T>::pop_back() {
+
+    if (this->head == nullptr) {
+        cout << "Cannot pop a node from an empty list." << endl;
+        return;
+    }
+
+    if (this->head != nullptr && this->head->get_next() == nullptr) {
+        SkipNode<T>* temp = this->head;
+        this->head = nullptr;
+        remove_node(temp);
+    }
+    else {
+        SkipNode<T>* curr = this->head;
+        while (curr->get_next() != nullptr) {
+            while (curr->get_down() != nullptr) {
+                curr = curr->get_down();
+            }
+            curr = curr->get_next();
+        }
+        remove_node(curr);
+    }
+}
+
 template <typename T>
 int SkipList<T>::flip_coin()
 {
