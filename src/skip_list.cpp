@@ -9,6 +9,7 @@ template <typename T>
 SkipList<T>::SkipList()
 {
     srand(time(nullptr));
+    //int current_height;
 
     SkipNode<T>* new_head = new SkipNode<T>();
     priv_head = new_head;
@@ -87,7 +88,7 @@ void SkipList<T>::insert(T data)
     }
     else if (new_node->get_data() > insert_node->get_data())
     {
-        cout << "INSERT: " << insert_node->get_data() << endl;
+        //cout << "INSERT: " << insert_node->get_data() << endl;
         if (insert_node->get_next() != nullptr)
         {
             SkipNode<T>* temp = insert_node->get_next();
@@ -219,6 +220,7 @@ void SkipList<T>::pretty_print()
 {
     SkipNode<T>* curr_layer = priv_head;
     SkipNode<T>* head_node = curr_layer->get_next();
+    SkipNode<T>* depths;
 
     while (curr_layer != nullptr)
     {
@@ -226,6 +228,18 @@ void SkipList<T>::pretty_print()
         {
             if (head_node != nullptr)
             {
+                if(curr_layer->get_down() != nullptr)
+                {
+                    //tried to print stuff before got an endless loop
+                    // //printing shit before
+                    // depths = curr_layer->get_down();
+                    // while (depths !=nullptr && depths->get_data() != head_node->get_data())
+                    // {
+                    // cout<<"---"<<endl;
+                    // }
+                    
+                  
+                }
                 cout << head_node->get_data() << "-> ";
                 head_node = head_node->get_next();
             }
