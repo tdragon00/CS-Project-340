@@ -22,6 +22,8 @@ public:
     SkipNode<T>* search(T data, SkipNode<T>* head=nullptr, bool is_begin=true) const;
     bool remove_node(T data);
     bool remove_node(SkipNode<T>* node);
+    void pop_front();
+    void pop_back();
 };
 
 #endif
