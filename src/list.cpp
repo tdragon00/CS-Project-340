@@ -5,7 +5,7 @@ the linked list.
 
 */
 //#include <string>
-//#include <iostream>
+#include <iostream>
 //#include <vector>
 #include "node.h"
 #include "node.cpp"
