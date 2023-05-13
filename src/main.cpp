@@ -40,11 +40,8 @@
 #include <conio.h> // for getch
 #include "list.h"
 #include "list.cpp"
-
 #include "skip_list.h"
 #include "skip_list.cpp"
-
-#include "node.h"
 
 using namespace std;
 
@@ -63,6 +60,7 @@ void print(LinkedList<T> &list);
 void print_menu();
 char print_typemenu();
 int intprompt();
+void print_skip_menu();
 
 //this is our main driver function it will display a menu with several options to use 
 //different lists
@@ -73,7 +71,7 @@ int main()
     //creating our lists for int and string
     LinkedList<int> intlist;
     LinkedList<string> stringlist;
-    SkipList<string> test;
+    SkipList<string> stringskiplist;
     
     //type of the list we have
     char type = print_typemenu();
@@ -85,7 +83,13 @@ int main()
     while (choice != 'q')
     {
         //printing menu and getting the users choice 
-         print_menu();
+         if(type == '2' || type == '1' ) 
+        {print_menu();
+        }
+        else
+        {
+        print_skip_menu();
+        }
          
            //clearing the buffer
          cin.get();
@@ -131,52 +135,57 @@ int main()
             break;
             //string case
         case '2':
-
             //switch case string
             //this switch statement is used to determine what actions are going to be taken on the list
-
             switch (choice)
             {
             case '1':
                 //insert at front
                 cin >> target;
                 stringlist.push_front(target);
-                test.insert(target);
                 break;
-
             case '2':
                 //insert at back
                 cin >> target;
                 stringlist.push_back(target);
-                test.insert(target);
                 break;
-
             case '3':
-
                 //search
                 cout << "coming soon" << endl;;
                 break;
-
             case '4':
                 print(stringlist);
-                test.pretty_print();
                 //print
-
                 break;
-
             default:
                 break;
             }
-
-
-
             break;
             //char case
         case '3':
-
-
-
-
+        switch (choice)
+            {
+            case '1':
+                //insert  front
+                cin >> target;
+                stringskiplist.insert(target);
+                break;
+            case '2':
+                //remove
+                cin >> target;
+                stringskiplist.remove_node(target);
+                break;
+            case '3':
+                //search
+                cout << "coming soon" << endl;;
+                break;
+            case '4':
+                stringskiplist.pretty_print();
+                //print
+                break;
+            default:
+                break;
+            }
             break;
         default:
             break;
@@ -214,7 +223,6 @@ int main()
 
     */
 }
-
 //simple print function 
 template <typename T>
 void print(LinkedList<T> &list) 
@@ -226,8 +234,6 @@ void print(LinkedList<T> &list)
         iter = iter->get_next();
     }
 }
-
-
 //simple menu for displaying the options
 void print_menu()
 {
@@ -241,6 +247,19 @@ void print_menu()
     cout << "q quit the program" << endl;
     cout << "__________________________________________" << endl;
 }
+void print_skip_menu()
+{
+    cout << "__________________________________________" << endl;
+    cout << " 1 Insert " << endl;
+    cout << " 2 Delete s" << endl;
+    cout << " 3 Search" << endl;
+    cout << " 4 print" << endl;
+    //cout << " 5" << endl;
+    //cout << " 6 change the list type" << endl;
+    cout << "q quit the program" << endl;
+    cout << "__________________________________________" << endl;
+
+}
 
 
 //helper function to determine if the string only contains digits
@@ -252,7 +271,6 @@ bool isdigits(string s) {
     }
     return true;
 }
-
 //this prompts the user to enter an int it will continue until we only get digits.
 int intprompt() 
 {
@@ -277,6 +295,7 @@ char print_typemenu()
         cout << "What data type do you want this list to be " << endl;
         cout << "1: int" << endl;
         cout << "2: string" << endl;
+        cout << "3:  string skiplist"<<endl;
         //cout << "c: char" << endl;
         cin.get(type);
         if (type == '1' || type == '2' || type == '3')
