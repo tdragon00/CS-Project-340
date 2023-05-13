@@ -73,6 +73,7 @@ int main()
     //creating our lists for int and string
     LinkedList<int> intlist;
     LinkedList<string> stringlist;
+    SkipList<string> test;
     
     //type of the list we have
     char type = print_typemenu();
@@ -140,12 +141,14 @@ int main()
                 //insert at front
                 cin >> target;
                 stringlist.push_front(target);
+                test.insert(target);
                 break;
 
             case '2':
                 //insert at back
                 cin >> target;
                 stringlist.push_back(target);
+                test.insert(target);
                 break;
 
             case '3':
@@ -156,6 +159,7 @@ int main()
 
             case '4':
                 print(stringlist);
+                test.pretty_print();
                 //print
 
                 break;
