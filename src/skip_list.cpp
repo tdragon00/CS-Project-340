@@ -69,7 +69,7 @@ void SkipList<T>::insert(T data)
         return;
     }
 
-    SkipNode<T>* insert_node = search(data, priv_head);
+    SkipNode<T>* insert_node = find_insert_node(data, priv_head);
 
     // floor the node
     insert_node = iter_to_layer(insert_node);
@@ -161,7 +161,7 @@ void SkipList<T>::insert(T data)
 }
 
 template <typename T>
-SkipNode<T>* SkipList<T>::search(T data, SkipNode<T>* head, bool is_begin) const
+SkipNode<T>* SkipList<T>::find_insert_node(T data, SkipNode<T>* head, bool is_begin) const
 {
     SkipNode<T>* curr_node;
     if (head == nullptr)
@@ -187,7 +187,7 @@ SkipNode<T>* SkipList<T>::search(T data, SkipNode<T>* head, bool is_begin) const
     {
         if (curr_node->get_down() != nullptr)
         {
-            return this->search(data, curr_node->get_down(), is_begin);
+            return this->find_insert_node(data, curr_node->get_down(), is_begin);
         }
         else
         {
@@ -205,7 +205,7 @@ SkipNode<T>* SkipList<T>::search(T data, SkipNode<T>* head, bool is_begin) const
     {
         if (curr_node->get_down() != nullptr)
         {
-            return this->search(data, curr_node->get_down(), is_begin);
+            return this->find_insert_node(data, curr_node->get_down(), is_begin);
         }
         else
         {
@@ -214,7 +214,7 @@ SkipNode<T>* SkipList<T>::search(T data, SkipNode<T>* head, bool is_begin) const
     }
     else
     {
-        return this->search(data, curr_node->get_next(), is_begin);
+        return this->find_insert_node(data, curr_node->get_next(), is_begin);
     }
 
     return curr_node;
@@ -264,9 +264,24 @@ void SkipList<T>::pretty_print()
 }
 
 template <typename T>
+SkipNode<T>* SkipList<T>::search(T data) const
+{
+    SkipNode<T>* key_node = find_insert_node(data, priv_head);
+
+    if (key_node->get_data() == data)
+    {
+        return key_node;
+    }
+    else
+    {
+        return nullptr;
+    }
+}
+
+template <typename T>
 bool SkipList<T>::remove_node(T data)
 {
-    SkipNode<T>* key_node = search(data, priv_head);
+    SkipNode<T>* key_node = find_insert_node(data, priv_head);
 
     if (key_node->get_data() == data)
     {

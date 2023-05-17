@@ -72,6 +72,7 @@ int main()
     LinkedList<int> intlist;
     LinkedList<string> stringlist;
     SkipList<string> stringskiplist;
+   
     
     //type of the list we have
     char type = print_typemenu();
@@ -80,6 +81,8 @@ int main()
     //container to hold inputs since strings can't really be fed wrong info
     string target;
     //main loop
+
+     SkipNode<string> *container = nullptr;
     while (choice != 'q')
     {
         //printing menu and getting the users choice 
@@ -116,16 +119,25 @@ int main()
                 break;
 
             case '3':
-
-                //search
-                cout << "coming soon" << endl;;
+            //search
+                cout<<intlist.find_node(intprompt())->get_data()<<endl;
                 break;
 
             case '4':
+             //print
                 print(intlist);
-                //print
+               
+            break;
 
-                break;
+            case '5':
+            //pop back
+            intlist.pop_back();
+            break;
+
+            case '6':
+            //delete
+            intlist.pop_front();
+            break;
 
             default:
                 break;
@@ -150,13 +162,27 @@ int main()
                 stringlist.push_back(target);
                 break;
             case '3':
-                //search
-                cout << "coming soon" << endl;;
+                cin>>target;
+                cout<<stringlist.find_node(target)->get_data()<<endl;
+                //cout << "coming soon" << endl;;
                 break;
             case '4':
                 print(stringlist);
                 //print
                 break;
+
+
+
+                            break;
+            case '5':
+            //pop back
+            stringlist.pop_back();
+            break;
+
+            case '6':
+            //delete
+             stringlist.pop_front();
+            break;
             default:
                 break;
             }
@@ -177,7 +203,15 @@ int main()
                 break;
             case '3':
                 //search
-                cout << "coming soon" << endl;;
+                cin>>target;
+                container = stringskiplist.search(target);
+                if(container !=nullptr )
+                {
+                    cout<<"your word was found "<<container->get_data()<<endl;
+                }else
+                cout<<"your word was not found"<<endl;
+                container = nullptr; 
+                //cout << "coming soon" << endl;
                 break;
             case '4':
                 stringskiplist.pretty_print();
@@ -242,8 +276,8 @@ void print_menu()
     cout << " 2 Insert at the back" << endl;
     cout << " 3 Search" << endl;
     cout << " 4 print" << endl;
-    //cout << " 5" << endl;
-    //cout << " 6 change the list type" << endl;
+    cout << " 5 pop back" << endl;
+    cout << " 6 pop front" << endl;
     cout << "q quit the program" << endl;
     cout << "__________________________________________" << endl;
 }
