@@ -315,24 +315,34 @@ bool SkipList<T>::remove_node(SkipNode<T>* node)
 
     if (node->get_up() != nullptr)
     {
-        while (curr_node->get_up() != nullptr)
+        while (curr_node != nullptr)
         {
-            next_node = curr_node->get_next();
-            prev_node = curr_node->get_prev();
-
-            if (next_node != nullptr)
+            if (curr_node != nullptr)
             {
-                next_node->set_prev(prev_node);
-            }
+                next_node = curr_node->get_next();
+                prev_node = curr_node->get_prev();
 
-            if (prev_node != nullptr)
-            {
-                prev_node->set_next(next_node);
-            }
+                if (next_node != nullptr)
+                {
+                    next_node->set_prev(prev_node);
+                }
 
-            SkipNode<T>* temp = curr_node;
-            curr_node = curr_node->get_up();
-            delete curr_node->get_down();
+                if (prev_node != nullptr)
+                {
+                    prev_node->set_next(next_node);
+                }
+
+                SkipNode<T>* temp = curr_node;
+                curr_node = curr_node->get_up();
+                if (curr_node != nullptr)
+                {
+                    delete curr_node->get_down();
+                }
+                else
+                {
+                    delete temp;
+                }
+            }
         }
     }
     else
