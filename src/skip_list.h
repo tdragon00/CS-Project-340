@@ -11,6 +11,7 @@ class SkipList
     SkipNode<T>* head = nullptr;
     SkipNode<T>* priv_head = nullptr;
     int flip_coin();
+    SkipNode<T>* find_insert_node(T data, SkipNode<T>* head=nullptr, bool is_begin=true) const;
 public:
     SkipList();
     void insert(T data);
@@ -19,7 +20,7 @@ public:
 
     int length() const { return size; };
     SkipNode<T>* front() const { return head; };
-    SkipNode<T>* search(T data, SkipNode<T>* head=nullptr, bool is_begin=true) const;
+    SkipNode<T>* search(T data) const;
     bool remove_node(T data);
     bool remove_node(SkipNode<T>* node);
     void pop_front();

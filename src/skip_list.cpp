@@ -8,7 +8,6 @@ static const int MAX_LEVELS = 5;
 template <typename T>
 SkipList<T>::SkipList()
 {
-    srand(time(nullptr));
     //int current_height;
 
     SkipNode<T>* new_head = new SkipNode<T>();
@@ -70,7 +69,7 @@ void SkipList<T>::insert(T data)
         return;
     }
 
-    SkipNode<T>* insert_node = search(data, priv_head);
+    SkipNode<T>* insert_node = find_insert_node(data, priv_head);
 
     // floor the node
     insert_node = iter_to_layer(insert_node);
@@ -111,6 +110,7 @@ void SkipList<T>::insert(T data)
         new_node->set_next(insert_node);
         insert_node->set_prev(new_node);
     }
+    srand(time(nullptr));
 
     // Should split this into a separate function
     SkipNode<T>* nearest_up_node = reverse_srch_up(new_node);
@@ -129,11 +129,8 @@ void SkipList<T>::insert(T data)
             SkipNode<T>* nxt_up_node = up_node->get_next();
             if (nxt_up_node != nullptr)
             {
-                if (nxt_up_node->get_next() != nullptr)
-                {
-                    nxt_up_node->set_prev(clone_node);
-                    clone_node->set_next(nxt_up_node);
-                }
+                nxt_up_node->set_prev(clone_node);
+                clone_node->set_next(nxt_up_node);
             }
 
             clone_node->set_prev(up_node);
@@ -164,7 +161,7 @@ void SkipList<T>::insert(T data)
 }
 
 template <typename T>
-SkipNode<T>* SkipList<T>::search(T data, SkipNode<T>* head, bool is_begin) const
+SkipNode<T>* SkipList<T>::find_insert_node(T data, SkipNode<T>* head, bool is_begin) const
 {
     SkipNode<T>* curr_node;
     if (head == nullptr)
@@ -190,7 +187,7 @@ SkipNode<T>* SkipList<T>::search(T data, SkipNode<T>* head, bool is_begin) const
     {
         if (curr_node->get_down() != nullptr)
         {
-            return this->search(data, curr_node->get_down(), is_begin);
+            return this->find_insert_node(data, curr_node->get_down(), is_begin);
         }
         else
         {
@@ -208,7 +205,7 @@ SkipNode<T>* SkipList<T>::search(T data, SkipNode<T>* head, bool is_begin) const
     {
         if (curr_node->get_down() != nullptr)
         {
-            return this->search(data, curr_node->get_down(), is_begin);
+            return this->find_insert_node(data, curr_node->get_down(), is_begin);
         }
         else
         {
@@ -217,7 +214,7 @@ SkipNode<T>* SkipList<T>::search(T data, SkipNode<T>* head, bool is_begin) const
     }
     else
     {
-        return this->search(data, curr_node->get_next(), is_begin);
+        return this->find_insert_node(data, curr_node->get_next(), is_begin);
     }
 
     return curr_node;
@@ -267,9 +264,24 @@ void SkipList<T>::pretty_print()
 }
 
 template <typename T>
+SkipNode<T>* SkipList<T>::search(T data) const
+{
+    SkipNode<T>* key_node = find_insert_node(data, priv_head);
+
+    if (key_node->get_data() == data)
+    {
+        return key_node;
+    }
+    else
+    {
+        return nullptr;
+    }
+}
+
+template <typename T>
 bool SkipList<T>::remove_node(T data)
 {
-    SkipNode<T>* key_node = search(data, priv_head);
+    SkipNode<T>* key_node = find_insert_node(data, priv_head);
 
     if (key_node->get_data() == data)
     {
@@ -348,9 +360,6 @@ void SkipList<T>::pop_front() {
     }
     else {
         SkipNode<T>* curr_head = this->head;
-        while (curr_head->get_down() != nullptr) {
-            curr_head = curr_head->get_down();
-        }
         this->head = curr_head->get_next();
         remove_node(this->head->get_prev());
     }
