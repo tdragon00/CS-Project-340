@@ -2,6 +2,8 @@
 #include <iostream>
 #include "list.h"
 #include "list.cpp"
+#include "skip_list.h"
+#include "skip_list.cpp"
 
 using namespace std;
 
@@ -20,6 +22,7 @@ void print(LinkedList<string>& userList) {
 int main() {
 	LinkedList<string> list;
 	Node<string>* wordFound;
+	SkipList<string> slist;
 
 	cout << "Creating a LinkedList of string data type with the words: apple, banana, cherry, dewberry, elderberry, fig." << endl;
 	cout << "list.push_back(\"banana\");" << endl;
@@ -85,7 +88,7 @@ int main() {
 	/*	cout << "Adding a node to the LinkedList." << endl;
 		list.add_node("grapes", list.find_node("banana"));
 		cout << "-After calling list.add_node(\"grapes\"), list.find_node(\"banana\"); \nExpected result:" << endl;
-		cout << "fig \ncherry \nelderberry \ngrapes \nbanana \napple \ndewberry" << endl;
+		cout << "fig \ncherry \nelderberry \nbanana \ngrapes \napple \ndewberry" << endl;
 		cout << endl;
 
 		cout << "Acutual result:" << endl;
@@ -210,7 +213,7 @@ int main() {
 	cout << endl;
 
 
-	
+
 	cout << "Find node contains the word \"banana\" by calling list.binary_find_node() and use get_data() to get the word stored in that node. \nExpected result:" << endl;
 	cout << "banana" << endl;
 	cout << endl;
@@ -218,4 +221,76 @@ int main() {
 	cout << "Actutal result:" << endl;
 	Node<string>* head = list.front();
 	cout << list.binary_find_node("banana", head, 3)->get_data() << endl;
+
+
+
+	cout << "Inserts nodes by calling insert(), using the words: beep, boop, womp, wamp, big, chungus, mort, zelda, hyrule, mario. \nExpected result:" << endl;
+	cout << "beep-> big-> boop-> chungus-> hyrule-> mario-> mort-> wamp-> womp-> zelda->, (The height is random)" << endl;
+	cout << endl;
+
+	slist.insert("beep");
+	slist.insert("boop");
+	slist.insert("womp");
+	slist.insert("wamp");
+	slist.insert("big");
+	slist.insert("chungus");
+	slist.insert("mort");
+	slist.insert("zelda");
+	slist.insert("hyrule");
+	slist.insert("mario");
+	cout << endl;
+
+	cout << "Actual result:";
+	slist.pretty_print();
+	cout << "------------------------------------------------------------------------------" << endl;
+	cout << endl;
+
+
+
+	cout << "Removes node contains the word \"big\" by calling remove_node(\"big\"). \nExpected result:" << endl;
+	cout << "beep-> boop-> chungus-> hyrule-> mario-> mort-> wamp-> womp-> zelda->, (The height is random)" << endl;
+	cout << endl;
+
+	slist.remove_node("big");
+
+	cout << "Actual result:";
+	slist.pretty_print();
+	cout << "------------------------------------------------------------------------------" << endl;
+	cout << endl;
+
+
+
+	cout << "Searchs the node contains the word \"mario\" by calling search(\"mario\"). \nExpected result:" << endl;
+	cout << "It should return the address of that node." << endl;
+	cout << endl;
+
+	cout << "Actual result:" << endl;
+	cout << slist.search("mario") << endl;
+	cout << "------------------------------------------------------------------------------" << endl;
+	cout << endl;
+
+
+
+	cout << "Pops the front node of the list by calling pop_front(). \nExpected result:" << endl;
+	cout << "boop->chungus->hyrule->mario->mort->wamp->womp->zelda->, (The height is random)" << endl;
+	cout << endl;
+
+	slist.pop_front();
+	cout << "Actual result:";
+	slist.pretty_print();
+	cout << "------------------------------------------------------------------------------" << endl;
+	cout << endl;
+
+
+
+
+	cout << "Pops the back node of the list by calling pop_back(). \nExpected result:" << endl;
+	cout << "boop->chungus->hyrule->mario->mort->wamp->womp->, (The height is random)" << endl;
+	cout << endl;
+
+	slist.pop_back();
+	cout << "Actual result:";
+	slist.pretty_print();
+	cout << "------------------------------------------------------------------------------" << endl;
+	cout << endl;
 }
