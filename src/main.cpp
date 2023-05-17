@@ -82,12 +82,16 @@ int main()
     string target;
     //main loop
 
+    //containers for searches.
+    Node<int> *intnodepointer;
+    Node<string> *stringnodepointer;
      SkipNode<string> *container = nullptr;
     while (choice != 'q')
     {
         //printing menu and getting the users choice 
          if(type == '2' || type == '1' ) 
-        {print_menu();
+        {
+            print_menu();
         }
         else
         {
@@ -103,7 +107,6 @@ int main()
         {
             //int case
         case '1':
-
             //switch case int
             //this switch statement is used to determine what actions are going to be taken on the list
             switch (choice)
@@ -112,38 +115,35 @@ int main()
                 //insert at front
                 intlist.push_front(intprompt());
                 break;
-
             case '2':
                 //insert at back
                 intlist.push_back(intprompt());
                 break;
-
             case '3':
-            //search
-                cout<<intlist.find_node(intprompt())->get_data()<<endl;
+            //search          
+              intnodepointer = intlist.find_node(intprompt());
+                if( intnodepointer == nullptr)
+                {
+                    cout<<"could not find your value"<<endl;
+                }
+                else 
+                cout<<"we found your value "+ intnodepointer->get_data()<<endl;
                 break;
-
             case '4':
              //print
-                print(intlist);
-               
+                print(intlist);           
             break;
-
             case '5':
             //pop back
             intlist.pop_back();
             break;
-
             case '6':
             //delete
             intlist.pop_front();
             break;
-
             default:
                 break;
             }
-
-
             break;
             //string case
         case '2':
@@ -162,9 +162,16 @@ int main()
                 stringlist.push_back(target);
                 break;
             case '3':
+                cout<<"Enter what you want to find"<<endl;
                 cin>>target;
-                cout<<stringlist.find_node(target)->get_data()<<endl;
-                //cout << "coming soon" << endl;;
+                         stringnodepointer = stringlist.find_node(target);
+                if( stringnodepointer == nullptr)
+                {
+                    cout<<"could not find your value"<<endl;
+                }
+                else 
+                cout<<"we found your value "+ stringnodepointer->get_data()<<endl;
+                
                 break;
             case '4':
                 print(stringlist);
@@ -227,21 +234,12 @@ int main()
 
 
     }
-
-    
-
-
-
     /*
-
     LinkedList<string> test = LinkedList<string>();
-
     test.push_front("hi");
     test.push_front("ww");
-
     Node<string>* head = test.front();
     cout << head->get_data() << endl;
-
     Node<string>* test_node = test.binary_find_node("hi", head, test.length());
 
     if (test_node != nullptr)
@@ -278,6 +276,7 @@ void print_menu()
     cout << " 4 print" << endl;
     cout << " 5 pop back" << endl;
     cout << " 6 pop front" << endl;
+    cout << "7 Load a list " << endl;
     cout << "q quit the program" << endl;
     cout << "__________________________________________" << endl;
 }
@@ -288,6 +287,7 @@ void print_skip_menu()
     cout << " 2 Delete s" << endl;
     cout << " 3 Search" << endl;
     cout << " 4 print" << endl;
+      cout << "5 Load a list " << endl;
     //cout << " 5" << endl;
     //cout << " 6 change the list type" << endl;
     cout << "q quit the program" << endl;
@@ -319,7 +319,6 @@ while(1)
     }
 }
 }
-
 //this prints the type menu this is only used once.
 char print_typemenu() 
 {
@@ -340,8 +339,6 @@ char print_typemenu()
         cout << "Invalid input try again " << endl;
     }
 }
-
-
 /*
 void linear_sort(LinkedList* &list)
 {

@@ -180,13 +180,14 @@ Node<T>* LinkedList<T>::find_node(T key) const
     {
         if (curr_node->get_data() == key)
         {
+            return curr_node;
             break;
         }
 
         curr_node = curr_node->get_next();
     }
 
-    return curr_node;
+    return nullptr;
 }
 
 //this finds the middle node of the list
@@ -404,7 +405,7 @@ Node<T>* LinkedList<T>::back() const
     return iterNode;
 }
 
-//returns the top node and removes it.
+//removes the top nade.
 template <typename T>
 void LinkedList<T>::pop_front() 
 {
@@ -434,7 +435,7 @@ void LinkedList<T>::pop_front()
     }
 }
 
-//returns the last node and removes it from the list.
+//removes the last node.
 template <typename T>
 void LinkedList<T>::pop_back() 
 {
