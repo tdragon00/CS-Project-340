@@ -38,6 +38,8 @@
 #include <string>   // for string
 #include <iostream> //  for stdcout 
 #include <conio.h> // for getch
+#include <iostream> // for files
+#include <fstream>
 #include "list.h"
 #include "list.cpp"
 #include "skip_list.h"
@@ -61,6 +63,8 @@ void print_menu();
 char print_typemenu();
 int intprompt();
 void print_skip_menu();
+string const fname1 = "strings.txt";
+string const fname2 = "int.txt";
 
 //this is our main driver function it will display a menu with several options to use 
 //different lists
@@ -80,12 +84,15 @@ int main()
     char choice = 's';
     //container to hold inputs since strings can't really be fed wrong info
     string target;
+    int holder;
     //main loop
 
     //containers for searches.
     Node<int> *intnodepointer;
     Node<string> *stringnodepointer;
      SkipNode<string> *container = nullptr;
+
+     ifstream myfile;
     while (choice != 'q')
     {
         //printing menu and getting the users choice 
@@ -120,27 +127,55 @@ int main()
                 intlist.push_back(intprompt());
                 break;
             case '3':
-            //search          
-              intnodepointer = intlist.find_node(intprompt());
-                if( intnodepointer == nullptr)
+                //search          
+                intnodepointer = intlist.find_node(intprompt());
+                if (intnodepointer == nullptr)
                 {
-                    cout<<"could not find your value"<<endl;
+                    cout << "could not find your value" << endl;
                 }
-                else 
-                cout<<"we found your value "+ intnodepointer->get_data()<<endl;
+                else
+                    cout << "we found your value " + intnodepointer->get_data() << endl;
                 break;
             case '4':
-             //print
-                print(intlist);           
-            break;
+                //print
+                print(intlist);
+                break;
             case '5':
-            //pop back
-            intlist.pop_back();
-            break;
+                //pop back
+                intlist.pop_back();
+                break;
             case '6':
-            //delete
-            intlist.pop_front();
+                //delete
+                intlist.pop_front();
+                break;
+
+            case'7':
+
+                cout << "case 7" << endl;
+                myfile.open(fname2);
+
+                if (myfile.is_open())
+                { // always check whether the file is open
+                    //cout << "file found" << endl;;
+
+
+                    while (!myfile.eof())
+                    {
+                       // cout << "help";
+                        myfile >> holder;
+                        intlist.push_back(holder);
+                        cout << holder;
+
+                    }
+                    myfile.close();
+                }else
+                {
+                    cout << "file not found" << endl;
+                }
+
+            
             break;
+
             default:
                 break;
             }
@@ -177,10 +212,6 @@ int main()
                 print(stringlist);
                 //print
                 break;
-
-
-
-                            break;
             case '5':
             //pop back
             stringlist.pop_back();
@@ -190,6 +221,22 @@ int main()
             //delete
              stringlist.pop_front();
             break;
+
+            
+            case '7':
+            myfile.open(fname1);
+            if (myfile.is_open())
+            { // always check whether the file is open
+                while (!myfile.eof())
+                {
+                    myfile >> target;
+                    stringlist.push_back(target);
+                }
+            }
+            myfile.close();
+            break;
+
+
             default:
                 break;
             }
@@ -224,6 +271,18 @@ int main()
                 stringskiplist.pretty_print();
                 //print
                 break;
+
+            case '5':
+                myfile.open(fname1);
+                if (myfile.is_open())
+                { // always check whether the file is open
+                    while (!myfile.eof())
+                    {
+                        myfile >> target;
+                        stringskiplist.insert(target);
+                    }
+                }
+                myfile.close();
             default:
                 break;
             }
@@ -288,7 +347,7 @@ void print_skip_menu()
     cout << " 3 Search" << endl;
     cout << " 4 print" << endl;
       cout << "5 Load a list " << endl;
-    //cout << " 5" << endl;
+    
     //cout << " 6 change the list type" << endl;
     cout << "q quit the program" << endl;
     cout << "__________________________________________" << endl;
