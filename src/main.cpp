@@ -345,7 +345,7 @@ void print_skip_menu()
 {
     cout << "__________________________________________" << endl;
     cout << " 1 Insert " << endl;
-    cout << " 2 Delete s" << endl;
+    cout << " 2 Delete " << endl;
     cout << " 3 Search" << endl;
     cout << " 4 print" << endl;
       cout << "5 Load a list " << endl;
