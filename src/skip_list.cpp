@@ -8,7 +8,6 @@ static const int MAX_LEVELS = 5;
 template <typename T>
 SkipList<T>::SkipList()
 {
-    srand(time(nullptr));
     //int current_height;
 
     SkipNode<T>* new_head = new SkipNode<T>();
@@ -111,6 +110,7 @@ void SkipList<T>::insert(T data)
         new_node->set_next(insert_node);
         insert_node->set_prev(new_node);
     }
+    srand(time(nullptr));
 
     // Should split this into a separate function
     SkipNode<T>* nearest_up_node = reverse_srch_up(new_node);
@@ -129,11 +129,8 @@ void SkipList<T>::insert(T data)
             SkipNode<T>* nxt_up_node = up_node->get_next();
             if (nxt_up_node != nullptr)
             {
-                if (nxt_up_node->get_next() != nullptr)
-                {
-                    nxt_up_node->set_prev(clone_node);
-                    clone_node->set_next(nxt_up_node);
-                }
+                nxt_up_node->set_prev(clone_node);
+                clone_node->set_next(nxt_up_node);
             }
 
             clone_node->set_prev(up_node);
@@ -348,9 +345,6 @@ void SkipList<T>::pop_front() {
     }
     else {
         SkipNode<T>* curr_head = this->head;
-        while (curr_head->get_down() != nullptr) {
-            curr_head = curr_head->get_down();
-        }
         this->head = curr_head->get_next();
         remove_node(this->head->get_prev());
     }
