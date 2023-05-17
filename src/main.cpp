@@ -39,6 +39,7 @@
 #include <iostream> //  for stdcout 
 #include <conio.h> // for getch
 #include <iostream> // for files
+#include <time.h>
 #include <fstream>
 #include "list.h"
 #include "list.cpp"
@@ -76,6 +77,7 @@ int main()
     LinkedList<int> intlist;
     LinkedList<string> stringlist;
     SkipList<string> stringskiplist;
+    srand(time(nullptr));
    
     
     //type of the list we have

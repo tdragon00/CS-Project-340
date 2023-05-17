@@ -110,7 +110,6 @@ void SkipList<T>::insert(T data)
         new_node->set_next(insert_node);
         insert_node->set_prev(new_node);
     }
-    srand(time(nullptr));
 
     // Should split this into a separate function
     SkipNode<T>* nearest_up_node = reverse_srch_up(new_node);
