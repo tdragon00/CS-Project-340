@@ -175,8 +175,13 @@ void LinkedList<T>::add_node(Node<T> data, Node<T>* specific_node)
 template <typename T>
 Node<T>* LinkedList<T>::find_node(T key) const
 {
+    if (head == nullptr) 
+    {
+        return nullptr;
+    }
     Node<T>* curr_node = this->head;
-    while (curr_node != nullptr)
+    
+    while (curr_node->get_next() != nullptr)
     {
         if (curr_node->get_data() == key)
         {

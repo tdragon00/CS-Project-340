@@ -136,7 +136,7 @@ int main()
                     cout << "could not find your value" << endl;
                 }
                 else
-                    cout << "we found your value " + intnodepointer->get_data() << endl;
+                    cout << "we found your value "<< intnodepointer->get_data() << endl;
                 break;
             case '4':
                 //print
