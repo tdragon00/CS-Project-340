@@ -207,7 +207,7 @@ int main()
                     cout<<"could not find your value"<<endl;
                 }
                 else 
-                cout<<"we found your value "+ stringnodepointer->get_data()<<endl;
+                cout<<"we found your value " <<stringnodepointer->get_data()<<endl;
                 
                 break;
             case '4':
